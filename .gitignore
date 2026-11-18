@@ -1,0 +1,10 @@
+/build/
+/eGUI/target/
+*.ko
+*.mod.c
+*.mod.o
+*.o
+.tmp_versions/
+Module.symvers
+modules.order
+*.deb

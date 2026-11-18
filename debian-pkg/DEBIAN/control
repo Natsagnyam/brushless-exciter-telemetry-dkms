@@ -1,0 +1,10 @@
+Package: diode-failure-detector
+Version: 5.1.0
+Section: science
+Priority: optional
+Architecture: amd64
+Maintainer: Natska Natsagnyam NAMKHAI <natska@example.com>
+Depends: libc6 (>= 2.35), libgcc-s1, libm6 | libc6
+Description: Diode failure detector for synchronous brushless excitation control system
+ A Linux kernel module and real-time Rust eGUI telemetry application 
+ for brushless alternator excitation control and diode failure monitoring.

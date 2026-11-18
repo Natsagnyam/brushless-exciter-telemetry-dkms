@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+dkms remove -m diode-failure-detector -v 5.1.0 --all || true
+depmod -a
+exit 0
