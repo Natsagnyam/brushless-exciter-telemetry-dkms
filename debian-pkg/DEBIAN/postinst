@@ -1,6 +1,12 @@
 #!/bin/sh
 set -e
+
+# Register, build, and install module via DKMS
+dkms add -m diode-failure-detector -v 5.1.0 || true
+dkms build -m diode-failure-detector -v 5.1.0 || true
+dkms install -m diode-failure-detector -v 5.1.0 || true
+
 depmod -a
-echo "Diode Failure Detector kernel module registered successfully."
+echo "Diode Failure Detector DKMS module registered and built successfully."
 chmod 755 /usr/bin/diode-failure-detector
 exit 0

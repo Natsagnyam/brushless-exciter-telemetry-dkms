@@ -1,0 +1,24 @@
+.TH DIODE-FAILURE-DETECTOR 1 "November 2026" "v5.1.0" "Diode Failure Detector Manual"
+.SH NAME
+technical_manual \- Technical Manual for the Diode Failure Detector Telemetry System
+.SH SYNOPSIS
+View full system documentation, architecture, and operational theory.
+.SH DESCRIPTION
+The Diode Failure Detector is an integrated Linux kernel module (simple_telemetry) and high-performance Rust eGUI visualization application. It monitors synchronous brushless alternator excitation control systems and detects diode short and open circuit failures.
+.SH PROCFS ENDPOINTS
+.TP
+.B /proc/simple-telemetry/stream
+Streams real-time CSV snapshots: timestamp_ms, din, dout, short_alarm, open_alarm.
+.TP
+.B /proc/simple-telemetry/hz
+Controls waveform frequency step (1 to 20).
+.TP
+.B /proc/simple-telemetry/t_lead
+Adjusts time constant lead (>= 1).
+.TP
+.B /proc/simple-telemetry/t_lag
+Adjusts time constant lag (>= 1).
+.SH AUTHOR
+Natska Natsagnyam NAMKHAI
+.SH SEE ALSO
+\fBdiode-failure-detector\fP(1)
