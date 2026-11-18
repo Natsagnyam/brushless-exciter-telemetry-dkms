@@ -34,19 +34,23 @@ Circuit philosophy: frequency_response_theory
 
 3. **Enterprise Packaging & DKMS Support:**
    - Fully compliant Debian (`.deb`) package with Dynamic Kernel Module Support (`DKMS`) for automatic recompilation across kernel upgrades.
-   - Includes custom man page documentation and system binary integration.
+   - Includes custom man page documentation and system binary integration[cite: 1].
 
 ---
 
 ## 📊 Test Results & System Verification
 
-All components have been rigorously verified and tested on Ubuntu 24.04 LTS (Kernel `x86_64`):
+All components have been rigorously verified and tested on Ubuntu 24.04 LTS (Kernel `7.0.0-43-generic` x86_64):
 
 ### 1. Manual Page Verification (`man diode-failure-detector`)
-Successfully packaged, compressed, and indexed into the system documentation database. Verified via terminal:
+Successfully packaged, compressed, and indexed into the system documentation database[cite: 1]. Verified via terminal:
 ```bash
 man diode-failure-detector
-(Reference: Displays cleanly formatted manual page with section macros, ProcFS endpoints, author metadata, and versioning info).   2. Kernel Module & ProcFS Telemetry StreamThe module loads cleanly into memory (16384 bytes) and streams real-time CSV payloads (timestamp_ms, din, dout, short_alarm, open_alarm)[cite: 1]:Bashnatska@natska-XPS-15-9530:~$ lsmod | grep simple_telemetry
+2. Kernel Module & ProcFS Telemetry Stream
+The module loads cleanly into memory (16384 bytes) and streams real-time CSV payloads (timestamp_ms, din, dout, short_alarm, open_alarm)[cite: 1]:
+
+Bash
+natska@natska-XPS-15-9530:~$ lsmod | grep simple_telemetry
 simple_telemetry       16384  0
 
 natska@natska-XPS-15-9530:~$ head -n 5 /proc/simple-telemetry/stream
@@ -55,8 +59,30 @@ natska@natska-XPS-15-9530:~$ head -n 5 /proc/simple-telemetry/stream
 1424469,28,15,0,0
 1426128,28,15,0,0
 1441824,-64,0,0,0
-3. Package Lintian HealthValidated with Debian lintian achieving pristine compliance[cite: 1]:Errors (E): 0[cite: 1]DKMS Build & Install: Automatic header compilation and module registration verified successfully[cite: 1].🛠️ Installation & UsageFrom Debian Package (.deb)Bashsudo dpkg -i diode-failure-detector_5.1.0_amd64.deb
+3. DKMS Status & Compilation
+DKMS automatically signed, compiled, and registered the module against the active kernel[cite: 1]:
+
+Bash
+natska@natska-XPS-15-9530:~$ dkms status
+diode-failure-detector/5.1.0, 7.0.0-43-generic, x86_64: installed
+🛠️ Installation & Usage
+From Debian Package (.deb)
+Bash
+sudo dpkg -i diode-failure-detector_5.1.0_amd64.deb
 sudo apt-get install -f # Resolves dependencies if needed
-Viewing System DocumentationBashman diode-failure-detector
-Launching the Telemetry GUIBashdiode-failure-detector
-📂 ProcFS Control Endpoints/proc/simple-telemetry/stream — Real-time CSV telemetry data stream[cite: 1]./proc/simple-telemetry/hz — Waveform frequency step adjustment (1 to 20)[cite: 1]./proc/simple-telemetry/t_lead — Digital filter time constant lead (>= 1)[cite: 1]./proc/simple-telemetry/t_lag — Digital filter time constant lag (>= 1)[cite: 1].Authored by Natska Natsagnyam NAMKHAI — Ulaanbaatar, Mongolia[cite: 1].
+Viewing System Documentation
+Bash
+man diode-failure-detector
+Launching the Telemetry GUI
+Bash
+diode-failure-detector
+📂 ProcFS Control Endpoints
+/proc/simple-telemetry/stream — Real-time CSV telemetry data stream[cite: 1].
+
+/proc/simple-telemetry/hz — Waveform frequency step adjustment (1 to 20)[cite: 1].
+
+/proc/simple-telemetry/t_lead — Digital filter time constant lead (>= 1)[cite: 1].
+
+/proc/simple-telemetry/t_lag — Digital filter time constant lag (>= 1)[cite: 1].
+
+Authored by Natska Natsagnyam NAMKHAI — Ulaanbaatar, Mongolia[cite: 1].
