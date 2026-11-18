@@ -18,10 +18,10 @@ Please keep hard working to find desired tuning. Better version available on req
 ![freq_band_detector](jpeg/freq_band_detector.png)
 
 Circuit characteristic: frequency_response
-![frequency_response](jpeg/frequency_response.png)
+![frequency_response](jpeg/frequency_response.jpeg)
 
 Circuit philosophy: frequency_response_theory
-![frequency_response](jpeg/frequency_response_theory.png)
+![frequency_response](jpeg/frequency_response_theory.jpg)
 
 
 ## 2. System Architecture
