@@ -1,0 +1,7 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: diode-failure-detector
+Source: https://github.com/Natsagnyam
+
+Files: *
+Copyright: 2026 Natska Natsagnyam NAMKHAI <nanyam22@gmail.com>
+License: GPL-2.0+

@@ -1,8 +1,9 @@
-obj-m += simple_telemetry.o
-ccflags-y := -I$(src)/include
+KDIR := /lib/modules/$(shell uname -r)/build
+PWD  := $(CURDIR)
 
 all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	$(MAKE) -C $(KDIR) M=$(PWD) modules
 
 clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	@if [ -d "$(KDIR)" ]; then $(MAKE) -C $(KDIR) M=$(PWD) clean; fi
+	rm -rf *.o *.ko *.mod* .*.cmd Module.symvers modules.order
