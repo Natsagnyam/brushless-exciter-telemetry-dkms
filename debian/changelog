@@ -1,0 +1,11 @@
+diode-failure-detector (5.1.1) noble; urgency=medium
+
+  * Rebuild with updated PPA configuration and fixes.
+
+ -- natska <natska@natska-XPS-15-9530>  Wed, 18 Nov 2026 19:38:50 +0800
+
+diode-failure-detector (5.1.0) unstable; urgency=medium
+
+  * Initial release with DKMS kernel module and Rust eGUI telemetry app.
+
+ -- Natska Natsagnyam NAMKHAI <nanyam22@gmail.com>  Wed, 18 Nov 2026 15:50:00 +0800

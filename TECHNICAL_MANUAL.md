@@ -10,9 +10,18 @@ It requires hard working to find desired tuning
 ## 1. Overview
 The **Diode Failure Detector** is an integrated Linux kernel module (`simple_telemetry`) and high-performance Rust eGUI visualization application designed for real-time monitoring and anomaly detection in synchronous brushless alternator excitation control systems.
 However, it is useful tool to learn resonance circuit tuning. Output = input * lag(T_lag) * lead(T_lad); Please deign own Hz resonance by tuning. E.g: select Hz you want to see resonance. Tune T_lag & T_lead. 
-Characteristic: 
+1) Manual tuning:
 Larger T_lag & Lower T_lead will blocking band in the middle point of Hz slider.
 Larger T_lead & Lower T_lag will unblocking band in the middle point of Hz slider.
+2) Auto tuning
+Select your target frequency (Hz) with the slider, then click ML Tune to automatically calculate T_lead and T_lag for resonance
+
+Auto tuning test result:
+![Auto_tuning_resonance_circuit_Result](jpeg/ML_tuning_resonance_circuit_Result.png)
+
+Auto tuning test:
+![Auto_tuning_resonance_circuit_](jpeg/ML_tuning_resonance_circuit.png)
+
 
 Please keep hard working to find desired tuning. Better version available on request commercially.
 ![freq_band_detector](jpeg/freq_band_detector.png)

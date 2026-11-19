@@ -3,9 +3,18 @@ Authored by **Natska Natsagnyam NAMKHAI** (Nov 2026, Ulaanbaatar, Mongolia).
 
 An enterprise-grade real-time telemetry and diode failure detection suite designed for synchronous brushless alternator excitation control systems. 
 However, it is useful tool to learn resonance circuit tuning. Output = input * lag(T_lag) * lead(T_lad); Please deign own Hz resonance by tuning. E.g: select Hz you want to see resonance. Tune T_lag & T_lead. 
-Characteristic: 
+1) Manual tuning:
 Larger T_lag & Lower T_lead will blocking band in the middle point of Hz slider.
 Larger T_lead & Lower T_lag will unblocking band in the middle point of Hz slider.
+2) Auto tuning
+Select your target frequency (Hz) with the slider, then click ML Tune to automatically calculate T_lead and T_lag for resonance
+
+Auto tuning test result:
+![Auto_tuning_resonance_circuit_Result](jpeg/ML_tuning_resonance_circuit_Result.png)
+
+Auto tuning test:
+![Auto_tuning_resonance_circuit_](jpeg/ML_tuning_resonance_circuit.png)
+
 
 Please keep hard working to find desired tuning. Better version available on request commercially.
 ![freq_band_detector](jpeg/freq_band_detector.png)
@@ -86,3 +95,30 @@ diode-failure-detector
 /proc/simple-telemetry/t_lag — Digital filter time constant lag (>= 1)[cite: 1].
 
 Authored by Natska Natsagnyam NAMKHAI — Ulaanbaatar, Mongolia[cite: 1].
+
+---
+
+## ML / Automated Resonance Tuning (`T_lead` & `T_lag`)
+
+The `diode-failure-detector` Rust `egui` application includes an automated tuning engine (`ResonanceOptimizer` in `eGUI/src/tuner.rs`, paired with UI controls in `eGUI/src/ui_controls.rs`) designed to find `T_lead` and `T_lag` settings that maximize output amplitude / resonance at the **currently selected frequency (`Hz`)** without freezing the UI thread.
+
+### Core Tuning Constraints & Behavior
+* **Fixed Frequency (`Hz` Preserved):** The tuner operates at the user-selected `Hz` setting and must **not** alter `Hz` during parameter search.
+* **Slider & Kernel Sync:** Candidate `T_lead` and `T_lag` values drive the corresponding GUI sliders and update the Linux kernel `simple_telemetry` ProcFS endpoints (`/proc/simple-telemetry/t_lead` and `/proc/simple-telemetry/t_lag`) so the series lag/lead filter stage in the kernel module responds in real time.
+* **Non-Blocking Execution:** Parameter evaluation runs asynchronously / in step-wise background updates rather than blocking the `egui` render/event loop, keeping waveform plotting and alarms responsive.
+* **Peak Retention:** Each tested `(T_lead, T_lag)` candidate is evaluated against the observed `dout` (`detector_output`) peak/amplitude response so the tuner converges on and retains high-output / resonance configurations rather than ending on a low-amplitude sample.
+
+### How the Search Process Works
+1. **Initialization & Mode Switch:** Triggered from the **ML Tune T_lead & T_lag** control in the UI, switching from manual slider adjustment into automated search mode while locking in the active `Hz` target.
+2. **Candidate Generation & Exploration/Exploitation:** Proposes `(T_lead, T_lag)` candidates across the valid parameter bounds—combining broad exploration across the `(T_lead, T_lag)` grid/space with focused refinement around high-scoring regions.
+3. **Actuation & Telemetry Observation:** Applies each candidate `(T_lead, T_lag)` pair to the sliders/ProcFS interface and observes the resulting `dout` signal amplitude and peak response from the telemetry stream.
+4. **Scoring & Best-Point Lock-In:** Ranks candidate pairs by peak `dout` output / resonance strength at the fixed `Hz`, tracks the best `(T_lead, T_lag)` found so far, and applies the winning pair when tuning completes.
+
+### Function-by-Function Reference (`eGUI/src/tuner.rs` & `eGUI/src/ui_controls.rs`)
+
+#### `eGUI/src/tuner.rs`
+* `pub fn new() -> Self {` — Evaluates or coordinates resonance tuning state, candidate `(T_lead, T_lag)` selection, peak `dout` tracking, or UI trigger/status rendering.
+* `pub fn start_tuning(&mut self, target_hz: f32) {` — Evaluates or coordinates resonance tuning state, candidate `(T_lead, T_lag)` selection, peak `dout` tracking, or UI trigger/status rendering.
+
+#### `eGUI/src/ui_controls.rs`
+* `pub fn render_ml_tune_button(` — Evaluates or coordinates resonance tuning state, candidate `(T_lead, T_lag)` selection, peak `dout` tracking, or UI trigger/status rendering.

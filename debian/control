@@ -1,0 +1,13 @@
+Source: diode-failure-detector
+Section: science
+Priority: optional
+Maintainer: Natska Natsagnyam NAMKHAI <nanyam22@gmail.com>
+Build-Depends: debhelper-compat (= 13), dkms, make
+Standards-Version: 4.6.2
+
+Package: diode-failure-detector
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, dkms, libc6, libgcc-s1
+Description: Diode failure detector for synchronous brushless excitation control system
+ A Linux kernel module and real-time Rust eGUI telemetry application 
+ for brushless alternator excitation control and diode failure monitoring.

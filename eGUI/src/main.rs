@@ -1,9 +1,14 @@
+pub mod tuner;
+pub mod ui_controls;
+use tuner::ResonanceOptimizer;
 use eframe::egui;
 use egui_plot::{Line, Plot, PlotPoints};
 use std::fs;
 use std::time::{Instant, Duration};
 
 struct TelemetryApp {
+    optimizer: ResonanceOptimizer,
+    manual_mode: bool,
     hz_val: i32,
     t_lead_val: i32,
     t_lag_val: i32,
@@ -19,10 +24,13 @@ struct TelemetryApp {
 
 impl Default for TelemetryApp {
     fn default() -> Self {
+
         let start_time = Instant::now();
         // Pre-seed initial points so egui_plot renders the lines immediately on launch
         let initial_elapsed = 0.0;
         Self {
+            optimizer: ResonanceOptimizer::new(),
+            manual_mode: true,
             hz_val: 1,
             t_lead_val: 45,
             t_lag_val: 1,
@@ -105,6 +113,9 @@ impl eframe::App for TelemetryApp {
                     let _ = fs::write("/proc/simple-telemetry/t_lag", self.t_lag_val.to_string());
                 }
             });
+
+            // --- Automated ML Auto-Tuner Button ---
+            ui_controls::render_ml_tune_button(ui, self.hz_val as f32, &mut self.manual_mode, &mut self.optimizer);
 
             ui.add_space(5.0);
             
